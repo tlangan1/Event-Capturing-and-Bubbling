@@ -7,6 +7,7 @@
     <title>Document</title>
 
     <script src="script.js"></script>
+    <link rel="stylesheet" href="style.css" />
   </head>
   <body>
     <h1>Event Bubbling And Capturing</h1>
@@ -14,10 +15,30 @@
       There are three elements on this page. A paragrah is a nested inside of a
       div which is nested inside of a main element.
     </p>
-    <main>
-      <div>
-        <p id="inner-paragraph">here is the paragraph.</p>
+    <label for="stopCapturingPropogationElement"
+      >Stop Propogation in Capturing Phase:</label
+    >
+    <select class="stopCapturingPropogationElement">
+      <option value=""></option>
+      <option value="main">Main</option>
+      <option value="div">Div</option>
+      <option value="p">Paragraph</option>
+    </select>
+    <label for="stopBubblingPropogationElement"
+      >Stop Propogation in Bubbling Phase:</label
+    >
+    <select class="stopBubblingPropogationElement">
+      <option value=""></option>
+      <option value="main">Main</option>
+      <option value="div">Div</option>
+      <option value="p">Paragraph</option>
+    </select>
+    <main id="main">
+      <div id="div">
+        <p id="p">Click on this paragraph.</p>
       </div>
     </main>
+
+    <div class="events"></div>
   </body>
 </html>
