@@ -6,10 +6,13 @@ addEventListener("load", onLoad);
 // helper functions for the executed code above
 
 function onLoad() {
+  // This event handler on the html object will make sure the events are cleared from the last execution
   document
     .querySelector("html")
     .addEventListener("click", clearEvents, { capture: true });
 
+  // This code will put two event handlers on each of the elements in the event path, the main the div and the p.
+  // One is for the capturing phase and the other is for the bubbling phase.
   document.querySelectorAll("[id]").forEach(function (element) {
     element.addEventListener("click", createEventListener("capturing"), {
       capture: true,
@@ -17,11 +20,18 @@ function onLoad() {
     element.addEventListener("click", createEventListener("bubbling"));
   });
 
+  // Thes event handler will clear either the Capturing drop-down or the Bubbling drop-down depending om which was selected last.
+  // It makes no sense to stop propagation in the bubbling phase if it was already stopped in the capturing phase or vice versa.
+  document
+    .querySelector(".stopBubblingPropogationElement")
+    .addEventListener("change", clearCapturingIfAppropriate);
+
+  document
+    .querySelector(".stopCapturingPropogationElement")
+    .addEventListener("change", clearBubblingIfAppropriate);
+
   // -----------------------------------------------
   // helper functions for the executed code above
-
-  // TODO for some reason the when I click the paragraph the event I see here has and empty id and a phase value of 3.
-  // I was expecting "p" and 1
   function clearEvents(event) {
     if (event.target.id == "p" && event.eventPhase == 1)
       document.querySelector(".events").innerHTML = "";
@@ -34,15 +44,6 @@ function onLoad() {
     // helper functions for the executed code above
 
     function eventListener(event) {
-      //   document.querySelector(".events").innerHTML +=
-      //     "Element with id " +
-      //     this.id +
-      //     (event.eventPhase === 1
-      //       ? " Capturing"
-      //       : event.eventPhase === 2
-      //       ? " Targeted by (in the " + targeting_phase + " phase)"
-      //       : " Bubbling") +
-      //     " this event.<br />";
       document.querySelector(".events").innerHTML +=
         "Element with id " +
         this.id +
@@ -101,6 +102,18 @@ function onLoad() {
           this.id +
           " stopped propagation!</span>";
       }
+    }
+  }
+
+  function clearCapturingIfAppropriate() {
+    if (this.value) {
+      document.querySelector(".stopCapturingPropogationElement").value = "";
+    }
+  }
+
+  function clearBubblingIfAppropriate() {
+    if (this.value) {
+      document.querySelector(".stopBubblingPropogationElement").value = "";
     }
   }
 }
